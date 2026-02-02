@@ -18,7 +18,7 @@ module tb_conv_accelerator();
     wire out_ram_wen;
     wire signed [7:0] out_ram_wdata;
 
-    // --- 2. Hızlandırıcı Modülünü Çağır (Instantiate) ---
+    //2. Hızlandırıcı Modülünü Çağır (Instantiate)
     conv_accelerator uut (
         .clk(clk),
         .rst_n(rst_n),
@@ -32,18 +32,18 @@ module tb_conv_accelerator();
         .out_ram_wdata(out_ram_wdata)
     );
 
-    // --- 3. Saat Sinyali Oluştur (100 MHz) ---
+    //3. Saat Sinyali Oluştur (100 MHz)
     initial begin
         clk = 0;
         forever #5 clk = ~clk; // Her 5ns'de bir tersle (Toplam periyot 10ns)
     end
 
-    // --- 4. Sahte RAM Davranışı ---
+    //4. Sahte RAM Davranışı 
     always @(posedge clk) begin
         ram_rdata <= ram_addr[7:0]; 
     end
 
-    // --- 5. Test Senaryosu ---
+    //5. Test Senaryosu 
     initial begin
         // Simülasyon dosya ayarları (Waveform görmek için)
         $dumpfile("test.vcd");
@@ -72,7 +72,8 @@ module tb_conv_accelerator();
         $display("Tebrikler, done sinyali alindi.");
         
         #100;
-        $finish; // Simülasyonu bitir
+        $finish;
     end
+
 
 endmodule
