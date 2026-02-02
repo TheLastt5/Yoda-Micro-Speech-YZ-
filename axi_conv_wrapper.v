@@ -51,8 +51,8 @@ module axi_conv_wrapper # (
     reg  axi_rvalid;
 
     // Kullanıcı Registerları
-    reg [31:0] slv_reg0; // CTRL_REG (Offset 0x00) -> Start komutu buraya gelecek
-    reg [31:0] slv_reg1; // STATUS_REG (Offset 0x04) -> Done/Busy buradan okunacak
+    reg [31:0] slv_reg0; // Start komutu buraya gelecek
+    reg [31:0] slv_reg1; // Done/Busy buradan okunacak
     
     // AXI Çıkış Atamaları
     assign s_axi_awready = axi_awready;
@@ -98,7 +98,7 @@ module axi_conv_wrapper # (
             slv_reg0    <= 0;
             accel_start <= 0;
         end else begin
-            // Handshake (El Sıkışma) Mantığı
+            // Handshake
             if (~axi_awready && s_axi_awvalid && s_axi_wvalid) begin
                 axi_awready <= 1'b1;
                 axi_wready <= 1'b1;
@@ -115,7 +115,7 @@ module axi_conv_wrapper # (
             end else begin
                 axi_awready <= 1'b0;
                 axi_wready <= 1'b0;
-                accel_start <= 1'b0; // Start sadece 1 clock pulse olmalı (Single Pulse!)
+                accel_start <= 1'b0; // Start sadece 1 clock pulse olmalı
             end
 
             // Cevap Gönderme (BVALID)
@@ -156,5 +156,6 @@ module axi_conv_wrapper # (
             end
         end
     end
+
 
 endmodule
